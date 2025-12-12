@@ -1,0 +1,109 @@
+.carousel {
+  display: flex;
+  gap: 2em;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  flex: 0 0 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  border-radius: .5em;
+}
+
+.carousel-content-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.carousel-content-header {
+  font-size: 48px;
+}
+
+.carousel-content-price {
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+.carousel-content-description {
+  font-size: 14px;
+  margin-top: 18px;
+}
+
+.carousel-content-main {
+  width: 50%;
+  height: 100%;
+  padding: 4em;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-conten-add-to-card {
+  margin-top: 200px;
+  border-radius: 8px;
+  padding: 5px;
+  width: 200px;
+  height: 50px;
+}
+
+.carousel-content-photo-container {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-photo {
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-arrow {
+  position: absolute;
+  bottom: 7%;
+  transform: translateY(-50%);
+  z-index: 20;
+  border: none;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.left {
+  left: 45%;
+}
+
+.carousel-arrow.right {
+  right: 45%;
+}
