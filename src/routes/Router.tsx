@@ -1,7 +1,11 @@
 import { createBrowserRouter } from 'react-router'
+import type { LoaderFunction } from 'react-router'
 
 import App from '../App'
 import Carousel from '../pages/carousel'
+import Pagination from '../pages/pagination'
+
+import {loader as paginationLoader} from '../pages/pagination'
 
 export const router = createBrowserRouter([
   {
@@ -9,7 +13,12 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '/', element: <Carousel /> },
-      { path: 'carousel', element: <Carousel /> }
+      { path: 'carousel', element: <Carousel /> },
+      { 
+        path: 'pagination/:page', 
+        element: <Pagination />,
+        loader: paginationLoader satisfies LoaderFunction,
+      }
     ]
   }
 ])
