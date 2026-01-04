@@ -35,12 +35,14 @@
 .carousel-content-description {
   font-size: 14px;
   margin-top: 18px;
+  max-width: 700px;
 }
 
 .carousel-content-main {
   width: 50%;
   height: 100%;
-  padding: 4em;
+  padding-left: 1em;
+  padding-top: 4em;
   display: flex;
   flex-direction: column;
 }
@@ -106,4 +108,132 @@
 
 .carousel-arrow.right {
   right: 45%;
+}
+
+@media (max-width: 1024px) {
+  .carousel-content-header {
+    font-size: 36px;
+  }
+
+  .carousel-content-price {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+
+  .carousel-content-description {
+    font-size: 12px;
+    margin-top: 14px;
+    max-width: 450px;
+  }
+
+  .carousel-conten-add-to-card {
+    margin-top: 150px;
+    border-radius: 8px;
+    padding: 3px;
+    width: 150px;
+    height: 38px;
+  }
+
+  .carousel-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .carousel-photo {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-content-header {
+    font-size: 28px;
+  }
+
+  .carousel-content-price {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+
+  .carousel-content-description {
+    font-size: 12px;
+    margin-top: 14px;
+    max-width: 350px;
+  }
+
+  .carousel-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .carousel-photo {
+    width: 300px;
+    height: 300px;
+  }
+
+  .carousel-photo-name {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel-content-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .carousel-content-main {
+    width: 100%;
+    padding-left: 1em;
+    padding-top: 4em;
+  }
+
+  .carousel-content-header {
+    font-size: 24px;
+  }
+
+  .carousel-content-price {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .carousel-content-description {
+    font-size: 12px;
+    margin-top: 12px;
+    max-width: 200px;
+  }
+
+  .carousel-conten-add-to-card {
+    margin-top: 75px;
+    border-radius: 8px;
+    padding: 3px;
+    width: 150px;
+    height: 38px;
+    margin-bottom: 20px;
+  }
+
+  .carousel-content-photo-container {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  .carousel-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    bottom: 5%;
+  }
+
+  .carousel-arrow.left {
+    left: 35%;
+  }
+
+  .carousel-arrow.right {
+    right: 35%;
+  }
 }

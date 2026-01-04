@@ -49,7 +49,7 @@ export default function Carousel() {
                 </div>
                 <figure className="carousel-content-photo-container">
                   <img src={item.image} alt="" className="carousel-photo" />
-                  <figcaption>{item.name}</figcaption>
+                  <figcaption className="carousel-photo-name">{item.name}</figcaption>
                 </figure>
               </div>
             </article>
