@@ -1,10 +1,12 @@
-import { useLoaderData, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router';
 import type {LoaderFunctionArgs} from 'react-router';
 import dayjs from 'dayjs';
 
 import { API } from '../../constants';
 
 import './index.css';
+import useDebounce from '../../hooks/useDebounce';
 
 type Movie = {
   adult: boolean;
@@ -30,11 +32,22 @@ type Movies = {
   total_results: number
 }
 
-export async function loader({params}: LoaderFunctionArgs) {
+export async function loader({params, request}: LoaderFunctionArgs) {
   const TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
   const { page } = params;
+  const requestUrl = new URL(request.url);
+  const search = requestUrl.searchParams.get('search') ?? '';
+  console.log('search', search)
   const pageValue = page ?? '1'
-  const url = `${API.BASE_URL}/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageValue}&sort_by=popularity.desc`;
+
+  let url
+
+  if (search) {
+    url = `${API.BASE_URL}/3/search/movie?query=${search}&include_adult=false&language=en-US&page=1`;
+  } else {
+    url = `${API.BASE_URL}/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageValue}&sort_by=popularity.desc`;
+  }
+
   const options = {
     method: 'GET',
     headers: {
@@ -51,37 +64,61 @@ export async function loader({params}: LoaderFunctionArgs) {
 export default function Pagination() {
   const { movies, currentPage } = useLoaderData() as { movies: Movies, currentPage: number };
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const searchQuery = searchParams.get('search');
+  console.log('movies', movies)
+
+  const [search, setSearch] = useState('')
 
   const posterBaseUrl = 'https://image.tmdb.org/t/p/w500'
 
   const onPreviousPagePressed = (currentPage: number) => (): void => {
     if ((currentPage - 1) >= 1) {
-      navigate(`/pagination/${currentPage - 1}`)
-    } 
-  }
-
-  const onNextPagePressed = (currentPage: number) => (): void => {
-    if ((currentPage + 1) <= 500) {
-      navigate(`/pagination/${currentPage + 1}`)
+      const query = searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : '';
+      navigate(`/pagination/${currentPage - 1}${query}`);
     }
   }
 
+  const onNextPagePressed = (currentPage: number) => (): void => {
+    const lastPage = movies.total_pages > 500 ? 500 : movies.total_pages
+    if ((currentPage + 1) <= lastPage) {
+      const query = searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : '';
+      navigate(`/pagination/${currentPage + 1}${query}`);
+    }
+  }
+
+  const debounceSearch = useDebounce(search, 500);
+
+  useEffect(() => {
+    navigate(`/pagination/1?search=${debounceSearch}`)
+  }, [debounceSearch])
+
   return (
     <main className='container'>
-      <div className='pagination-container'>
-        <button className='button-arrow pagination-previous' onClick={onPreviousPagePressed(currentPage)}>
-          ❮
-        </button>
-        <div className='pagination-number'>
-          <p>{currentPage == 1 ? '' : `${currentPage - 1}`}</p>
-          <p className='pagination-active-page'>{currentPage}</p>
-          <p>{currentPage == 500 ? '' : `${currentPage + 1}`}</p>
-          <p>.....</p>
-          <p>500</p>
+      <div className='input-pagination-catainer'>
+        <input 
+          type="text" 
+          className='input-search' 
+          placeholder='search movie here...'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className='pagination-container'>
+          <button className='button-arrow pagination-previous' onClick={onPreviousPagePressed(currentPage)}>
+            ❮
+          </button>
+          <div className='pagination-number'>
+            <p>{currentPage == 1 ? '' : `${currentPage - 1}`}</p>
+            <p className='pagination-active-page'>{currentPage}</p>
+            <p>{currentPage == 500 || movies.total_pages ? '' : `${currentPage + 1}`}</p>
+            <p>.....</p>
+            <p>{movies.total_pages > 500 ? '500' : movies.total_pages}</p>
+          </div>
+          <button className='button-arrow pagination-next' onClick={onNextPagePressed(currentPage)}>
+            ❯
+          </button>
         </div>
-        <button className='button-arrow pagination-next' onClick={onNextPagePressed(currentPage)}>
-          ❯
-        </button>
       </div>
       <div className='movies'>
         {movies && movies.results.map((movie: Movie) => (
