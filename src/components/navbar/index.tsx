@@ -17,6 +17,7 @@ export default function Navbar() {
       <div className="menu-container">
         <a href="/carousel" className="menu-item">Carousel</a>
         <a href="/pagination/1" className="menu-item">Pagination</a>
+        <a href="/fake-api" className="menu-item">Fake API Call</a>
       </div>
     </nav>
   )
